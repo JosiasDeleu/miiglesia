@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Mi Iglesia</title>
+    <link rel="icon" href="../chat/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <button id="menuToggle" class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav id="sidePanel" class="side-panel">
+            <div class="nav-items">
+                <a href="/chat" class="nav-item">
+                    <i class="fas fa-comments"></i>
+                    <span>Chat</span>
+                </a>
+                <a href="#" class="nav-item active">
+                    <i class="fas fa-cog"></i>
+                    <span>Ajustes</span>
+                </a>
+                <a href="#" class="nav-item" id="sidePanelLogout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Cerrar sesión</span>
+                </a>
+            </div>
+        </nav>
+        <div class="container">
+            <header>
+                <h1>Mi Iglesia - Panel de Administración</h1>
+            </header>
+
+            <nav class="tabs">
+                <button class="tab-btn active" data-tab="personal">Información Personal</button>
+                <button class="tab-btn" data-tab="password">Cambiar Contraseña</button>
+                <!-- Admin-only tabs -->
+                <button class="tab-btn admin-only" data-tab="newUser">Nuevo Usuario</button>
+                <button class="tab-btn admin-only" data-tab="manageUsers">Gestionar Usuarios</button>
+                <button class="tab-btn admin-only" data-tab="auditLogs">Registros de Auditoría</button>
+            </nav>
+
+            <main>
+                <!-- Personal Information Section -->
+                <section id="personal" class="tab-content active">
+                    <h2>Información Personal</h2>
+                    <form id="personalForm">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="apellido">Apellido</label>
+                            <input type="text" id="apellido" name="apellido" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <button type="submit">Actualizar Información</button>
+                    </form>
+                </section>
+
+                <!-- Password Section -->
+                <section id="password" class="tab-content">
+                    <h2>Cambiar Contraseña</h2>
+                    <form id="passwordForm">
+                        <div class="form-group">
+                            <label for="currentPassword">Contraseña Actual</label>
+                            <input type="password" id="currentPassword" name="currentPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">Nueva Contraseña</label>
+                            <input type="password" id="newPassword" name="newPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirmar Contraseña</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required>
+                        </div>
+                        <button type="submit">Cambiar Contraseña</button>
+                    </form>
+                </section>
+
+                <!-- New User Section -->
+                <section id="newUser" class="tab-content">
+                    <h2>Crear Nuevo Usuario</h2>
+                    <p>Para crear un nuevo usuario, primero debe estar registrado como miembro en la aplicación.</p>
+                    <form id="newUserForm" style="padding-top: 1%;">
+                        <div class="form-group">
+                            <label for="memberSearch">Buscar Miembro</label>
+                            <div class="search-wrapper">
+                                <input 
+                                    type="text" 
+                                    id="memberSearch" 
+                                    class="member-select" 
+                                    placeholder="Escriba el nombre para buscar..." 
+                                    autocomplete="off"
+                                    required>
+                                <div id="memberDropdown" class="member-dropdown">
+                                    <!-- Options will be populated dynamically -->
+                                </div>
+                            </div>
+                            <input type="hidden" id="member_id" name="member_id">
+                        </div>
+                        <div class="form-group">
+                            <label for="newNombre">Nombre</label>
+                            <input type="text" id="newNombre" name="nombre" required readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="newApellido">Apellido</label>
+                            <input type="text" id="newApellido" name="apellido" required readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="newEmail">Email</label>
+                            <input type="email" id="newEmail" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="rol">Rol</label>
+                            <select id="rol" name="rol" required>
+                                <option value="">Seleccionar rol</option>
+                                <option value="admin">Administrador</option>
+                                <option value="user">Usuario</option>
+                            </select>
+                        </div>
+                        <button type="submit">Crear Usuario</button>
+                    </form>
+                </section>
+
+                <!-- Manage Users Section -->
+                <section id="manageUsers" class="tab-content">
+                    <h2>Gestionar Usuarios</h2>
+                    <div class="table-container">
+                        <table id="usersTable">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Email</th>
+                                    <th>Rol</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Users will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Audit Logs Section -->
+                <section id="auditLogs" class="tab-content">
+                    <div class="audit-header">
+                        <h2>Registros de Auditoría</h2>
+                        <button id="toggleFilters" class="secondary-button">
+                            <i class="fas fa-filter"></i> Mostrar Filtros
+                        </button>
+                    </div>
+                    
+                    <!-- Add Filter Controls -->
+                    <div class="filters-container collapsed">
+                        <div class="filter-fields">
+                            <div class="filter-group">
+                                <label for="filterAccion">Acción</label>
+                                <select id="filterAccion">
+                                    <option value="">Todas</option>
+                                    <option value="Desvincular">Desvincular</option>
+                                    <option value="Actualizar">Actualizar</option>
+                                    <option value="Eliminar">Eliminar</option>
+                                    <option value="Crear">Crear</option>
+                                    <option value="Vincular">Vincular</option>
+                                    <option value="Registrar asistencia">Registrar asistencia</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label for="filterCategoria">Categoría</label>
+                                <select id="filterCategoria">
+                                    <option value="">Todas</option>
+                                    <option value="Actividades">Actividades</option>
+                                    <option value="Familias">Familias</option>
+                                    <option value="Usuarios">Usuarios</option>
+                                    <option value="Miembros_Ministerios">Miembros_Ministerios</option>
+                                    <option value="Seguimiento">Seguimiento</option>
+                                    <option value="Ministerios">Ministerios</option>
+                                    <option value="Personas">Personas</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label for="filterUsuario">Usuario</label>
+                                <input type="text" id="filterUsuario" placeholder="Buscar por usuario">
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label for="filterDetalle">Detalle</label>
+                                <input type="text" id="filterDetalle" placeholder="Buscar por detalle">
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label>Fecha</label>
+                                <div class="date-range">
+                                    <div class="date-input">
+                                        <label for="filterFechaDesde">Desde</label>
+                                        <input type="date" id="filterFechaDesde">
+                                    </div>
+                                    <div class="date-input">
+                                        <label for="filterFechaHasta">Hasta</label>
+                                        <input type="date" id="filterFechaHasta">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="filter-actions">
+                            <button id="applyFilters" class="primary-button">Aplicar Filtros</button>
+                            <button id="clearFilters" class="secondary-button">Limpiar Filtros</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table id="logsTable">
+                            <thead>
+                                <tr>
+                                    <th>Acción</th>
+                                    <th>Categoría</th>
+                                    <th>Detalle</th>
+                                    <th>Usuario</th>
+                                    <th>Fecha y hora</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Logs will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <button id="prevPage" class="page-btn">&lt; Anterior</button>
+                        <span id="pageInfo">Página <span id="currentPage">1</span> de <span id="totalPages">1</span></span>
+                        <button id="nextPage" class="page-btn">Siguiente &gt;</button>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div id="editUserModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Editar Usuario</h2>
+            <form id="editUserForm">
+                <div class="form-group">
+                    <label for="editNombre">Nombre</label>
+                    <input type="text" id="editNombre" name="nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="editApellido">Apellido</label>
+                    <input type="text" id="editApellido" name="apellido" required>
+                </div>
+                <div class="form-group">
+                    <label for="editEmail">Email</label>
+                    <input type="email" id="editEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="editRol">Rol</label>
+                    <select id="editRol" name="rol" required>
+                        <option value="">Seleccionar rol</option>
+                        <option value="admin">Administrador</option>
+                        <option value="user">Usuario</option>
+                    </select>
+                </div>
+                <button type="submit">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+/* General Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  background-color: rgb(33,33,33);
+  color: #d1d5db;
+}
+
+/* Chat Container */
+#loginContainer {
+
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center;    /* Centrar verticalmente */
+  height: 100vh; 
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: transparent;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Header */
+header {
+  background-color: transparent;
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid #3e3f4b;
+}
+
+header h1 {
+  color: #ececec;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+
+/* Input Container */
+#inputContainer, #resetEmail {
+  display: flex;
+  padding: 7px 15px;
+  background-color: rgb(47,47,47);
+  border-radius: 50px;
+  margin-bottom: 2%;
+}
+
+#username, #password, #resetEmailUserField {
+  flex: 1;
+  padding: 10px 12px;
+  font-size: 17px;
+  color: white;
+  background-color: transparent;
+  border: 0px solid #3e3f4b;
+  border-radius: 10px;
+  outline: none;
+  margin-right: 15px;
+}
+
+#userInput::placeholder {
+  color: #aeafaf;
+}
+
+#accederButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 15px;
+  background-color: rgb(0, 118, 150);
+  color: white; /* Texto blanco */
+  border: none; /* Sin borde */
+  border-radius: 50px;
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  font-size: 16px; /* Tamaño del texto */
+  font-weight: bold; /* Negrita */
+  transition: background-color 0.3s ease; /* Animación suave */
+  margin: 20px auto 2% auto; /* Changed margin to center horizontally and add top spacing */
+  height: 40px;
+  width: 40%;
+}
+
+#accederButton:hover {
+  background-color: rgb(1, 56, 71); /* Cambio de color al pasar el mouse */
+}
+
+#accederButton:disabled {
+    background-color: rgb(128, 128, 128);
+    cursor: not-allowed;
+}
+
+#accederButton:disabled:hover {
+    background-color: rgb(128, 128, 128);
+}
+
+#forgotPasswordLink, #backToLoginLink {
+    color: rgb(0, 118, 150);
+    text-decoration: none;
+    font-size: 14px;
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+}
+
+#forgotPasswordLink:hover, #backToLoginLink:hover {
+    color: rgb(1, 56, 71);
+}
+
+#resetButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 25px;  /* increased horizontal padding */
+    background-color: rgb(0, 118, 150);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin: 20px auto 2% auto;
+    height: 40px;
+    min-width: fit-content;  /* ensures button is at least as wide as its content */
+    max-width: 100%;        /* prevents button from overflowing container */
+    white-space: nowrap;    /* prevents text from wrapping */
+}
+
+#resetButton:hover {
+    background-color: rgb(1, 56, 71);
+}
+
+#resetButton:disabled {
+    background-color: rgb(128, 128, 128);
+    cursor: not-allowed;
+}
+
+#resetButton:disabled:hover {
+    background-color: rgb(128, 128, 128);
+}
+
+.spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-left: 8px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

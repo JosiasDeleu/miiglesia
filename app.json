@@ -1,0 +1,7 @@
+{
+  "name": "Church Management System with Agentic AI",
+  "description": "An AI-driven church management system using Node.js, Express, LangChain, and OpenAI to automate administrative tasks.",
+  "repository": "https://github.com/your-repo-link",
+  "keywords": ["node", "express", "heroku", "AI", "LangChain", "LangGraph", "OpenAI", "church management"],
+  "image": "Heroku/nodejs"
+}
